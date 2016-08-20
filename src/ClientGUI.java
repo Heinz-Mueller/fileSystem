@@ -1,9 +1,11 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Amel on 19.08.2016.
  */
-public class ClientGUI
+public class ClientGUI implements ActionListener
 {
     private JTextField clientPortTextField;
     private JButton clientStartenButton;
@@ -11,11 +13,22 @@ public class ClientGUI
     private JButton createButton;
     private JPanel clientPanel;
 
-    //private FSInterface fsserver;
-    //enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME }
+    private FSInterface fsserver;
+    enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME }
 
+    public ClientGUI()
+    {
+        clientStartenButton.addActionListener(this);
+    }
 
-
+    public void actionPerformed(ActionEvent e)
+    {
+        Object o = e.getSource();
+        if(o == clientStartenButton)
+        {
+            clientTextArea1.append("Starte Client wurde gedückt\n");
+        }
+    }
 
     /**
      * Hauptmethode
@@ -32,6 +45,10 @@ public class ClientGUI
         frame.pack();
         frame.setVisible(true);
 
+        FileSystemClient fsc = null;
+        int serverPort = 0;
+        int eingabe = -1;
+        FileSystemClient.MENUE meue_eingabe = FileSystemClient.MENUE.FALSE;
 
     }
 }
