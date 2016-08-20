@@ -308,14 +308,14 @@ public class FileSystemServer implements FSInterface
 	/**
 	* Hauptmethode
 	* Startet den Server
-	* @param args[] Parameter beim Programm start. Erster Eintrag ist PortNr für Server
+	* @param //args[] Parameter beim Programm start. Erster Eintrag ist PortNr für Server
 	*/
 	public static void main(String args[])
 	{
 		try
 		{
 			//Propertys aus Datei laden
-			System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+			System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
 			if(args.length >= 1)
 			{
 				int serverPort = 0;

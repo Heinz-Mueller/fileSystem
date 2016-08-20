@@ -35,7 +35,9 @@
         <children>
           <component id="25f9e" class="javax.swing.JTextArea" binding="serverTextArea">
             <constraints/>
-            <properties/>
+            <properties>
+              <text value=""/>
+            </properties>
           </component>
         </children>
       </scrollpane>

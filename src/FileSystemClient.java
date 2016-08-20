@@ -26,7 +26,7 @@ public class FileSystemClient
 		MENUE meue_eingabe = MENUE.FALSE;
 		try 
 		{
-			System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+			System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
 			serverPort = Integer.parseInt(args[0]);	
 			fsc = new FileSystemClient(serverPort);		
 			while(meue_eingabe != MENUE.CLOSE)
