@@ -7,12 +7,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 
-
-
 public class FileSystemClient
 {
 	private FSInterface fsserver;
-	enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME };
+	enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME }
 	/**
 	* Hauptmethode der Demo
 	* startet eine Menue
