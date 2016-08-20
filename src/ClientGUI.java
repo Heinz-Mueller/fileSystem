@@ -16,17 +16,36 @@ public class ClientGUI implements ActionListener
     private FSInterface fsserver;
     enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME }
 
+    FileSystemClient fsc = null;
+    int serverPort = 0;
+    int eingabe = -1;
+    FileSystemClient.MENUE meue_eingabe = FileSystemClient.MENUE.FALSE;
+
     public ClientGUI()
     {
         clientStartenButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e)
-    {
+    {   //try / catch fehlt
         Object o = e.getSource();
         if(o == clientStartenButton)
         {
-            clientTextArea1.append("Starte Client wurde gedückt\n");
+
+                clientTextArea1.append("Starte Client wurde gedückt\n");
+            try
+            {
+                serverPort = Integer.parseInt(clientPortTextField.getText().trim());
+
+                fsc = new FileSystemClient(serverPort);
+
+            }
+            catch(Exception ee)
+            {
+                clientTextArea1.append("Fehler bei der Port-Eingabe\n");
+                return;
+            }
+
         }
     }
 
@@ -45,10 +64,10 @@ public class ClientGUI implements ActionListener
         frame.pack();
         frame.setVisible(true);
 
-        FileSystemClient fsc = null;
-        int serverPort = 0;
-        int eingabe = -1;
-        FileSystemClient.MENUE meue_eingabe = FileSystemClient.MENUE.FALSE;
+        //FileSystemClient fsc = null;
+        //int serverPort = 0;
+        //int eingabe = -1;
+        //FileSystemClient.MENUE meue_eingabe = FileSystemClient.MENUE.FALSE;
 
     }
 }
