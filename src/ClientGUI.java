@@ -128,7 +128,7 @@ public class ClientGUI extends JFrame implements ActionListener
         {
             try
             {
-                client.append("| Verwendetes OS: " + this.fsserver.getOSName() + "\n\n");
+                client.append(" Verwendetes OS: " + this.fsserver.getOSName() + "\n\n");
             }
             catch(Exception eOS)
             {
