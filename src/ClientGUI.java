@@ -31,7 +31,6 @@ public class ClientGUI extends JFrame implements ActionListener
     private JButton OSInfoButton;
 
     private FSInterface fsserver;
-    enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME };
 
     /**
      * Konstruktor
@@ -53,6 +52,18 @@ public class ClientGUI extends JFrame implements ActionListener
         deleteButton.addActionListener(this);
         renameButton.addActionListener(this);
         OSInfoButton.addActionListener(this);
+
+
+        /**
+         * Buttons deaktivieren, werden erst nach Verbindung aktiviert
+         */
+        browseButton.setEnabled(false);
+        seachButton.setEnabled(false);
+        createDirButton.setEnabled(false);
+        createFileButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        renameButton.setEnabled(false);
+        OSInfoButton.setEnabled(false);
     }
 
     void append(String text)
@@ -67,23 +78,23 @@ public class ClientGUI extends JFrame implements ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-
+        /**
+         * Die Quelle des Events finden,
+         * d.h. welcher Button wurden geklickt?
+         */
         Object o = e.getSource();
 
         if(o == startClientButton)
         {
-            clientTextArea.append("Starte Server wurde gedückt\n");
             int serverPort;
-
             try
             {
                 serverPort = Integer.parseInt(portTextFeld.getText().trim());
             } catch(Exception er)
             {
-                clientTextArea.append("Fehler bei der Port-Eingabe\n");
+                JOptionPane.showMessageDialog(null, "Fehler bei der Port-Eingabe", "Port-Nr", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             try
             {
                 if (System.getSecurityManager() == null)
@@ -92,28 +103,32 @@ public class ClientGUI extends JFrame implements ActionListener
                 }
                 Registry registry = LocateRegistry.getRegistry(serverPort);
                 this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
+                clientTextArea.append("Verbunden...\n");
             }
             catch(Exception e2)
             {
                 System.out.println( "Fehler: " + e2.toString() );
             }
-            // Button deaktivieren nach Start
+
+            // Start-Button deaktivieren nach Start
             startClientButton.setEnabled(false);
             // Portfeld deaktivieren nach Start
             portTextFeld.setEditable(false);
+            //Buttons aktivieren
+            browseButton.setEnabled(true);
+            seachButton.setEnabled(true);
+            createDirButton.setEnabled(true);
+            createFileButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+            renameButton.setEnabled(true);
+            OSInfoButton.setEnabled(true);
         }
 
         if(o == OSInfoButton)
         {
             try
             {
-                client.append("|-------------------------------------------------\n");
-                client.append("| Verwendetes OS: " + this.fsserver.getOSName() + "\n");
-                client.append("|-------------------------------------------------\n");
-                //clientTextArea.setCaretPosition(clientTextArea.getText().length() - 1);
-                System.out.println("|-------------------------------------------------");
-                System.out.println("| Verwendetes OS: " + this.fsserver.getOSName());
-                System.out.println("|-------------------------------------------------");
+                client.append("| Verwendetes OS: " + this.fsserver.getOSName() + "\n\n");
             }
             catch(Exception eOS)
             {
@@ -123,24 +138,154 @@ public class ClientGUI extends JFrame implements ActionListener
 
         if(o == createDirButton)
         {
-            JFrame eingabe2 = new JFrame();
-            String pfad = JOptionPane.showInputDialog(eingabe2, "Welcher Ordner soll erstellt werden?", "Create Directory", JOptionPane.PLAIN_MESSAGE);
+            JFrame eingabe = new JFrame();
+            String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll erstellt werden?", "Create Directory", JOptionPane.PLAIN_MESSAGE);
             try
             {
                 if( this.fsserver.createDir(pfad) )
                 {
                     client.append("Ordner wurde erstellt!\n");
-                    System.out.println("Ordner wurde erstellt!");
                 }
                 else
                 {
                     client.append("Ordner konnte NICHT erstellt werden!\n");
-                    System.out.println("Ordner konnte NICHT erstellt werden!");
+                    JOptionPane.showMessageDialog(null, "Ordner konnte NICHT erstellt werden", "Create Directory", JOptionPane.ERROR_MESSAGE);
                 }
             }
             catch(IOException eDir)
             {
                 System.out.println("Fehler: " + eDir.getMessage());
+            }
+        }
+
+        if(o == createFileButton)
+        {
+            JFrame eingabe = new JFrame();
+            String pfad = JOptionPane.showInputDialog(eingabe, "Welche Datei soll erstellt werden?", "Create File", JOptionPane.PLAIN_MESSAGE);
+            try
+            {
+                if( this.fsserver.createFile(pfad) )
+                {
+                    client.append("Datei wurde erstellt!\n");
+                }
+                else
+                {
+                    client.append("Datei konnte NICHT erstellt werden!\n");
+                    JOptionPane.showMessageDialog(null, "Datei konnte NICHT erstellt werden!n", "Create File", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            catch(IOException eFile)
+            {
+                System.out.println("Fehler: " + eFile.getMessage());
+            }
+        }
+
+        if(o == browseButton)
+        {
+            String erg;
+            String [] dirListe;
+            String [] fileListe;
+
+            JFrame eingabe = new JFrame();
+            String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll untersucht werden?", "Browse", JOptionPane.PLAIN_MESSAGE);
+            try
+            {
+                erg = this.fsserver.browseDirs(pfad);
+                dirListe = erg.split("[;]");
+
+                erg = this.fsserver.browseFiles(pfad);
+                fileListe = erg.split("[;]");
+
+                client.append("File-Liste:\n");
+                client.append("---------------------------------------------------------------\n");
+                for(int i=0; i<fileListe.length; i++)
+                {
+                    client.append( fileListe[i] + "\n");
+                }
+                client.append("\nDirectory-Liste:\n");
+                client.append("---------------------------------------------------------------\n");
+                for(int j=0; j<dirListe.length; j++)
+                {
+                    client.append(dirListe[j] + "\n");
+                }
+            }
+            catch(IOException eBrowse)
+            {
+                System.out.println("Fehler: " + eBrowse.getMessage());
+            }
+        }
+
+        if(o == seachButton)
+        {
+            String erg;
+            String [] fileListe;
+
+            JFrame eingabe = new JFrame();
+            String pfad = JOptionPane.showInputDialog(eingabe, "Was soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
+            String startDir = JOptionPane.showInputDialog(eingabe, "Wo soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
+            try
+            {
+                erg = this.fsserver.search(pfad, startDir);
+                fileListe = erg.split("[;]");
+                client.append("Found-Files: \n");
+                client.append("---------------------------------------------------------------\n");
+                for(int i=0; i<fileListe.length; i++)
+                {
+                    client.append(fileListe[i] + "\n");
+                }
+
+            }
+            catch(IOException eSeach)
+            {
+                System.out.println("Fehler: " + eSeach.getMessage());
+            }
+        }
+
+        if(o == deleteButton)
+        {
+            JFrame eingabe = new JFrame();
+            String pfad = JOptionPane.showInputDialog(eingabe, "Was soll gelöscht werden?", "Delete", JOptionPane.PLAIN_MESSAGE);
+            try
+            {
+                if( this.fsserver.delete(pfad) )
+                {
+                    client.append("Ordner oder Datei wurde geloescht!\n");
+                    JOptionPane.showMessageDialog(null, "Ordner oder Datei wurde geloescht!", "Delete", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Ordner oder Datei konnte NICHT geloescht werden!", "Delete", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Ordner oder Datei konnte NICHT geloescht werden!");
+                }
+            }
+            catch(IOException eDelete)
+            {
+                System.out.println("Fehler: " + eDelete.getMessage());
+            }
+        }
+
+        if(o == renameButton)
+        {
+            JFrame eingabe = new JFrame();
+            String oldName = JOptionPane.showInputDialog(eingabe, "Was soll umbeannt werden?", "Rename", JOptionPane.PLAIN_MESSAGE);
+            String newName = JOptionPane.showInputDialog(eingabe, "Wie lautet die neue Bezeichnung?", "Rename", JOptionPane.PLAIN_MESSAGE);
+            try
+            {
+                if( this.fsserver.rename(oldName, newName) )
+                {
+                    System.out.println("Ordner oder Datei wurde umbenannt!");
+                    client.append("Ordner oder Datei wurde umbenannt!\n");
+                    JOptionPane.showMessageDialog(null, "Ordner oder Datei wurde umbenannt!", "Rename", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Ordner oder Datei konnte NICHT umbenannt werden!", "Rename", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Ordner oder Datei konnte NICHT umbenannt werden!");
+                }
+            }
+            catch(IOException eRename)
+            {
+                System.out.println("Fehler: " + eRename.getMessage());
             }
         }
 

@@ -335,10 +335,12 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
     {
         System.out.println("Funktion: getOSName");
         serverTextArea.append("Funktion: getOSName!\n");
+        serverTextArea.setCaretPosition(serverTextArea.getText().length() - 1);
         String osName;
         osName = this.fs.getOSName();
         System.out.println("Return: \"" + osName + "\"");
         serverTextArea.append("Return: \"" + osName + "\"" + "\n");
+        serverTextArea.setCaretPosition(serverTextArea.getText().length() - 1);
         return osName;
     }
 
