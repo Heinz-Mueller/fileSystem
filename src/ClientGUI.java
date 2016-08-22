@@ -3,14 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.io.*;
-import java.util.*;
-import java.nio.*;
-import java.nio.file.*;
-import java.rmi.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+
+import java.io.IOException;
+
+import javax.swing.JPanel;
+
+import javax.swing.JFrame;
+
+
 
 /**
  * Created by Eugen Eberle on 20.08.2016.
@@ -35,6 +35,9 @@ public class ClientGUI extends JFrame implements ActionListener
     /**
      * Konstruktor
      */
+
+
+
     public ClientGUI()
     {
         JFrame frame = new JFrame("ClientGUI");
@@ -42,8 +45,12 @@ public class ClientGUI extends JFrame implements ActionListener
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(800, 400);
+        frame.setSize(900, 400);
+        frame.setResizable(false);
         clientTextArea.append("Hallo \n\n");
+        //clientTextArea.setBounds(0,0,800,200);????
+
+
         startClientButton.addActionListener(this);
         browseButton.addActionListener(this);
         seachButton.addActionListener(this);
@@ -64,7 +71,12 @@ public class ClientGUI extends JFrame implements ActionListener
         deleteButton.setEnabled(false);
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
+
     }
+
+
+
+
 
     void append(String text)
     {
@@ -294,7 +306,8 @@ public class ClientGUI extends JFrame implements ActionListener
     public static void main(String[] args)
     {
         //Propertys aus Datei laden
-        System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+        System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
         client = new ClientGUI();
+
     }
 }
