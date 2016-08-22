@@ -40,7 +40,6 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-
         Object o = e.getSource();
 
         if(o == starteServerButton)
@@ -96,10 +95,10 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
      */
     public String browseDirs(String dir) throws RemoteException
     {
-        Path [] dirListe = null;
+        Path [] dirListe;
         String ergListe = "";
         System.out.println("Funktion: browseDirs - Param: " + dir);
-        serverTextArea.append("Funktion: browseDirs - Param: " + dir + "\n");
+        serverTextArea.append("\nFunktion: browseDirs - Param: " + dir + "\n");
         try
         {
             this.fs.browse(dir);
@@ -140,10 +139,10 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
      */
     public String browseFiles(String file) throws RemoteException
     {
-        Path [] fileListe = null;
+        Path [] fileListe;
         String ergListe = "";
         System.out.println("Funktion: browseFiles - Param: " + file);
-        serverTextArea.append("Funktion: browseFiles - Param: " + file + "\n");
+        serverTextArea.append("\nFunktion: browseFiles - Param: " + file + "\n");
         try
         {
             this.fs.browse(file);
@@ -335,10 +334,12 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
     {
         System.out.println("Funktion: getOSName");
         serverTextArea.append("Funktion: getOSName!\n");
+        serverTextArea.setCaretPosition(serverTextArea.getText().length() - 1);
         String osName;
         osName = this.fs.getOSName();
         System.out.println("Return: \"" + osName + "\"");
         serverTextArea.append("Return: \"" + osName + "\"" + "\n");
+        serverTextArea.setCaretPosition(serverTextArea.getText().length() - 1);
         return osName;
     }
 
