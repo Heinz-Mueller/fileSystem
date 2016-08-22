@@ -11,6 +11,7 @@ import java.nio.file.*;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.awt.Toolkit;
 
 /**
  * Created by Eugen Eberle on 20.08.2016.
@@ -64,6 +65,9 @@ public class ClientGUI extends JFrame implements ActionListener
         deleteButton.setEnabled(false);
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
+
+        ImageIcon img = new ImageIcon("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png");
+        frame.setIconImage(img.getImage());
     }
 
     void append(String text)
@@ -103,11 +107,12 @@ public class ClientGUI extends JFrame implements ActionListener
                 }
                 Registry registry = LocateRegistry.getRegistry(serverPort);
                 this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
-                clientTextArea.append("Verbunden...\n");
+                client.append("Verbunden...\n");
             }
             catch(Exception e2)
             {
                 System.out.println( "Fehler: " + e2.toString() );
+                client.append( "Fehler: " + e2.toString() );
             }
 
             // Start-Button deaktivieren nach Start
@@ -294,7 +299,7 @@ public class ClientGUI extends JFrame implements ActionListener
     public static void main(String[] args)
     {
         //Propertys aus Datei laden
-        System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+        System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
         client = new ClientGUI();
     }
 }

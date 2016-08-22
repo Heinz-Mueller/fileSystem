@@ -33,6 +33,9 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         frame.setSize(600, 400);
         serverTextArea.append("Hallo \n\n");
         starteServerButton.addActionListener(this);
+
+        ImageIcon img = new ImageIcon("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png");
+        frame.setIconImage(img.getImage());
     }
 
     /**
@@ -352,6 +355,6 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
     public static void main(String args[])
     {
         //Propertys aus Datei laden
-        System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+        System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
     }
 }
