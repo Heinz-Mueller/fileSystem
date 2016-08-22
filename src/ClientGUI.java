@@ -1,6 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,7 +14,6 @@ import java.nio.file.*;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.awt.Toolkit;
 
 /**
  * Created by Eugen Eberle on 20.08.2016.
@@ -30,14 +32,16 @@ public class ClientGUI extends JFrame implements ActionListener
     private JButton deleteButton;
     private JButton renameButton;
     private JButton OSInfoButton;
+    private JLabel port;
 
     private FSInterface fsserver;
+
+    private Image img;
 
     /**
      * Konstruktor
      */
-    public ClientGUI()
-    {
+    public ClientGUI() throws IOException {
         JFrame frame = new JFrame("ClientGUI");
         frame.setContentPane(clientPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +72,16 @@ public class ClientGUI extends JFrame implements ActionListener
 
         ImageIcon img = new ImageIcon("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png");
         frame.setIconImage(img.getImage());
+
+        //BufferedImage img2 = ImageIO.read(new File("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png"));
+        //frame.setContentPane(img2);
+
     }
+
+    public void paintComponent(Graphics g) {
+        g.drawImage(img, 0, 0, null);
+    }
+
 
     void append(String text)
     {
@@ -296,8 +309,7 @@ public class ClientGUI extends JFrame implements ActionListener
 
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IOException {
         //Propertys aus Datei laden
         System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
         client = new ClientGUI();
