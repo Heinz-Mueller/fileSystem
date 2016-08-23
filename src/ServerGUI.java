@@ -13,6 +13,17 @@ import java.nio.file.*;
 import java.rmi.*;
 
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+
 public class ServerGUI extends JFrame implements FSInterface, ActionListener
 {
     private JTextField portTextFeld;
@@ -33,6 +44,13 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         frame.setSize(600, 400);
         serverTextArea.append("Hallo \n\n");
         starteServerButton.addActionListener(this);
+
+        /*
+        JLabel background1 = new JLabel(new ImageIcon("D:\\IntelliJ IDEA Community Edition 2016.1.2\\fileSystemNeu\\src\\HTWSoft2.png"));
+
+        frame.add(background1);
+        frame.setResizable(false);
+*/
     }
 
     /**
