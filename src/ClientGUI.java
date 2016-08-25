@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -114,12 +115,21 @@ public class ClientGUI extends JFrame implements ActionListener
                     System.setSecurityManager(new SecurityManager());
                 }
                 Registry registry = LocateRegistry.getRegistry(serverPort);
-                this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
+                //this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
                 clientTextArea.append("Verbunden...\n");
             }
             catch(Exception e2)
             {
                 System.out.println( "Fehler: " + e2.toString() );
+            }
+
+            try {
+                //meine: -> FSInterface server = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
+                this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:2222/FileSystemServer");
+            }
+            catch (Exception ex)
+            {
+                System.out.println( "Fehler: " + ex.toString() );
             }
 
             // Start-Button deaktivieren nach Start

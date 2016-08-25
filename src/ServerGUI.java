@@ -93,10 +93,18 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
                 System.out.println( "Fehler: " + e2.toString() );
             }
 
+            try {
+                Naming.rebind("//:1500/FileSystemServer", fsserver);
+            }
+            catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
             // Button deaktivieren nach Start
             starteServerButton.setEnabled(false);
             // Portfeld deaktivieren nach Start
             portTextFeld.setEditable(false);
+
         }
     }
 
