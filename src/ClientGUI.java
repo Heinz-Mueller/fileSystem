@@ -32,6 +32,7 @@ public class ClientGUI extends JFrame implements ActionListener
     private JButton OSInfoButton;
 
     private FSInterface fsserver;
+    private FSInterface fsserver2;
 
     /**
      * Konstruktor
@@ -126,6 +127,7 @@ public class ClientGUI extends JFrame implements ActionListener
             try {
                 //meine: -> FSInterface server = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
                 this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:2222/FileSystemServer");
+                this.fsserver2 = (FSInterface) Naming.lookup("//10.9.40.229:2222/FileSystemServer");
             }
             catch (Exception ex)
             {
@@ -151,6 +153,7 @@ public class ClientGUI extends JFrame implements ActionListener
             try
             {
                 client.append(" Verwendetes OS: " + this.fsserver.getOSName() + "\n\n");
+                client.append(" Verwendetes OS: " + this.fsserver2.getOSName() + "\n\n");
             }
             catch(Exception eOS)
             {
@@ -205,8 +208,11 @@ public class ClientGUI extends JFrame implements ActionListener
         if(o == browseButton)
         {
             String erg;
+            String erg2; //meins
             String [] dirListe;
+            String [] dirListe2;
             String [] fileListe;
+            String [] fileListe2;
 
             JFrame eingabe = new JFrame();
             String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll untersucht werden?", "Browse", JOptionPane.PLAIN_MESSAGE);
@@ -218,17 +224,36 @@ public class ClientGUI extends JFrame implements ActionListener
                 erg = this.fsserver.browseFiles(pfad);
                 fileListe = erg.split("[;]");
 
+                erg2 = this.fsserver2.browseDirs(pfad);
+                dirListe2 = erg.split("[;]");
+
+                erg2 = this.fsserver2.browseFiles(pfad);
+                fileListe2 = erg.split("[;]");
+
                 client.append("File-Liste:\n");
                 client.append("---------------------------------------------------------------\n");
                 for(int i=0; i<fileListe.length; i++)
                 {
                     client.append( fileListe[i] + "\n");
                 }
-                client.append("\nDirectory-Liste:\n");
+                client.append("\n\nDirectory-Liste:\n");
                 client.append("---------------------------------------------------------------\n");
                 for(int j=0; j<dirListe.length; j++)
                 {
                     client.append(dirListe[j] + "\n");
+                }
+
+                client.append("\nMeine File-Liste:\n");
+                client.append("---------------------------------------------------------------\n");
+                for(int i=0; i<fileListe2.length; i++)
+                {
+                    client.append( fileListe2[i] + "\n");
+                }
+                client.append("\nDirectory-Liste:\n");
+                client.append("---------------------------------------------------------------\n");
+                for(int j=0; j<dirListe2.length; j++)
+                {
+                    client.append(dirListe2[j] + "\n");
                 }
             }
             catch(IOException eBrowse)

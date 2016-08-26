@@ -94,7 +94,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
             }
 
             try {
-                Naming.rebind("//:1500/FileSystemServer", fsserver);
+                Naming.rebind("//:2222/FileSystemServer", fsserver);
             }
             catch (Exception ex) {
                 System.out.println(ex.getMessage());
