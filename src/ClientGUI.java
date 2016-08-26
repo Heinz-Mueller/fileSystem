@@ -230,7 +230,7 @@ public class ClientGUI extends JFrame implements ActionListener
                 erg2 = this.fsserver2.browseFiles(pfad);
                 fileListe2 = erg.split("[;]");
 
-                client.append("File-Liste:\n");
+                client.append("File-Liste1:\n");
                 client.append("---------------------------------------------------------------\n");
                 for(int i=0; i<fileListe.length; i++)
                 {
