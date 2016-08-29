@@ -3,6 +3,7 @@
  */
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.registry.LocateRegistry;
@@ -12,10 +13,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.rmi.*;
 
-
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.MediaTracker;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,12 +42,42 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         serverTextArea.append("Hallo \n\n");
         starteServerButton.addActionListener(this);
 
+        // FEHLER: man muss neuen Thread erstellen
+        changeBackground();
+
         /*
         JLabel background1 = new JLabel(new ImageIcon("D:\\IntelliJ IDEA Community Edition 2016.1.2\\fileSystemNeu\\src\\HTWSoft2.png"));
 
         frame.add(background1);
         frame.setResizable(false);
 */
+    }
+
+
+    public void changeBackground()
+    {
+        // Hintergrundsfarbe automatisch ändern (fließender Übergang)
+        for (int i = 102; i <= 255; i++) {
+            serverPanel.setBackground(new Color(i, i, i));
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            if (i == 255) {
+                do {
+                    i--;
+                    serverPanel.setBackground(new Color(i, i, i));
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                while (i > 102);
+            }
+        }
     }
 
     /**
@@ -85,7 +112,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
                 //Registry erstellen um Objekt ansprechen zu können
                 Registry registry =  LocateRegistry.createRegistry(serverPort);
                 //Objekt an registry binden
-                registry.rebind("FileSystemServer", stub);
+                //registry.rebind("FileSystemServer", stub);
                 serverTextArea.append("Server bound ...\n");
             }
             catch(Exception e2)
@@ -94,7 +121,8 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
             }
 
             try {
-                Naming.rebind("//:2222/FileSystemServer", fsserver);
+                //Naming.rebind("//:2222/FileSystemServer", fsserver);
+                Naming.rebind("//:1500/FileSystemServer", fsserver);
             }
             catch (Exception ex) {
                 System.out.println(ex.getMessage());

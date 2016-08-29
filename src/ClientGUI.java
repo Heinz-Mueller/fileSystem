@@ -24,15 +24,23 @@ public class ClientGUI extends JFrame implements ActionListener
     private JButton startClientButton;
     private JTextArea clientTextArea;
     private JButton browseButton;
-    private JButton seachButton;
+    private JButton searchButton;
     private JButton createDirButton;
     private JButton createFileButton;
     private JButton deleteButton;
     private JButton renameButton;
     private JButton OSInfoButton;
+    private JTextField searchFeld;
+    private JLabel searchLabel;
+    private JLabel BackgroundLabel;
+    private JLabel imageLabel;
 
     private FSInterface fsserver;
     private FSInterface fsserver2;
+
+
+    String pfad = "";
+    boolean ersteEingabe = true;
 
     /**
      * Konstruktor
@@ -52,10 +60,13 @@ public class ClientGUI extends JFrame implements ActionListener
         clientTextArea.append("Hallo \n\n");
         //clientTextArea.setBounds(0,0,800,200);????
 
+        //Animated GIF
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("geld00008.gif"));
+        imageLabel.setIcon(ii);
 
         startClientButton.addActionListener(this);
         browseButton.addActionListener(this);
-        seachButton.addActionListener(this);
+        searchButton.addActionListener(this);
         createDirButton.addActionListener(this);
         createFileButton.addActionListener(this);
         deleteButton.addActionListener(this);
@@ -67,15 +78,13 @@ public class ClientGUI extends JFrame implements ActionListener
          * Buttons deaktivieren, werden erst nach Verbindung aktiviert
          */
         browseButton.setEnabled(false);
-        seachButton.setEnabled(false);
+        searchButton.setEnabled(false);
         createDirButton.setEnabled(false);
         createFileButton.setEnabled(false);
         deleteButton.setEnabled(false);
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
-
     }
-
 
 
 
@@ -126,8 +135,10 @@ public class ClientGUI extends JFrame implements ActionListener
 
             try {
                 //meine: -> FSInterface server = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
-                this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:2222/FileSystemServer");
-                this.fsserver2 = (FSInterface) Naming.lookup("//10.9.40.229:2222/FileSystemServer");
+                //this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:2222/FileSystemServer");
+                //this.fsserver2 = (FSInterface) Naming.lookup("//10.9.40.229:2222/FileSystemServer");
+                this.fsserver = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
+                //this.fsserver = (FSInterface) Naming.lookup("//192.168.178.31:1500/FileSystemServer");
             }
             catch (Exception ex)
             {
@@ -140,11 +151,12 @@ public class ClientGUI extends JFrame implements ActionListener
             portTextFeld.setEditable(false);
             //Buttons aktivieren
             browseButton.setEnabled(true);
-            seachButton.setEnabled(true);
+            searchButton.setEnabled(true);
             createDirButton.setEnabled(true);
             createFileButton.setEnabled(true);
             deleteButton.setEnabled(true);
             renameButton.setEnabled(true);
+
             OSInfoButton.setEnabled(true);
         }
 
@@ -153,7 +165,7 @@ public class ClientGUI extends JFrame implements ActionListener
             try
             {
                 client.append(" Verwendetes OS: " + this.fsserver.getOSName() + "\n\n");
-                client.append(" Verwendetes OS: " + this.fsserver2.getOSName() + "\n\n");
+                //client.append(" Verwendetes OS: " + this.fsserver2.getOSName() + "\n\n");
             }
             catch(Exception eOS)
             {
@@ -224,11 +236,11 @@ public class ClientGUI extends JFrame implements ActionListener
                 erg = this.fsserver.browseFiles(pfad);
                 fileListe = erg.split("[;]");
 
-                erg2 = this.fsserver2.browseDirs(pfad);
-                dirListe2 = erg.split("[;]");
+                //erg2 = this.fsserver2.browseDirs(pfad);
+                //dirListe2 = erg.split("[;]");
 
-                erg2 = this.fsserver2.browseFiles(pfad);
-                fileListe2 = erg.split("[;]");
+                //erg2 = this.fsserver2.browseFiles(pfad);
+                //fileListe2 = erg.split("[;]");
 
                 client.append("File-Liste1:\n");
                 client.append("---------------------------------------------------------------\n");
@@ -242,7 +254,7 @@ public class ClientGUI extends JFrame implements ActionListener
                 {
                     client.append(dirListe[j] + "\n");
                 }
-
+                /*
                 client.append("\nMeine File-Liste:\n");
                 client.append("---------------------------------------------------------------\n");
                 for(int i=0; i<fileListe2.length; i++)
@@ -255,6 +267,7 @@ public class ClientGUI extends JFrame implements ActionListener
                 {
                     client.append(dirListe2[j] + "\n");
                 }
+                */
             }
             catch(IOException eBrowse)
             {
@@ -262,30 +275,51 @@ public class ClientGUI extends JFrame implements ActionListener
             }
         }
 
-        if(o == seachButton)
+        if(o == searchButton)
         {
+
             String erg;
             String [] fileListe;
 
-            JFrame eingabe = new JFrame();
-            String pfad = JOptionPane.showInputDialog(eingabe, "Was soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
-            String startDir = JOptionPane.showInputDialog(eingabe, "Wo soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
-            try
+            //Erste Eingabe: Was suchen Sie?
+            //Text im Label ist die Bedingung
+            if (ersteEingabe == true)
             {
-                erg = this.fsserver.search(pfad, startDir);
-                fileListe = erg.split("[;]");
-                client.append("Found-Files: \n");
-                client.append("---------------------------------------------------------------\n");
-                for(int i=0; i<fileListe.length; i++)
+                pfad = searchFeld.getText();
+                searchLabel.setText("Wo soll gesucht werden?");
+                searchFeld.setText("");
+                ersteEingabe = false;
+            }
+            else if (ersteEingabe == false)
+            {
+                String startDir = searchFeld.getText();
+                try
                 {
-                    client.append(fileListe[i] + "\n");
+                    erg = this.fsserver.search(pfad, startDir);
+                    fileListe = erg.split("[;]");
+                    client.append("Found-Files: \n");
+                    client.append("---------------------------------------------------------------\n");
+                    for(int i=0; i<fileListe.length; i++)
+                    {
+                        client.append(fileListe[i] + "\n");
+                    }
                 }
+                catch(IOException eSeach)
+                {
+                    System.out.println("Fehler: " + eSeach.getMessage());
+                }
+                searchLabel.setText("Was soll gesucht werden?");
+                searchFeld.setText("");
+                ersteEingabe = true;
+            }
 
-            }
-            catch(IOException eSeach)
-            {
-                System.out.println("Fehler: " + eSeach.getMessage());
-            }
+
+
+
+            //JFrame eingabe = new JFrame();
+            //String pfad = JOptionPane.showInputDialog(eingabe, "Was soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
+            //String startDir = JOptionPane.showInputDialog(eingabe, "Wo soll gesucht werden?", "Seach", JOptionPane.PLAIN_MESSAGE);
+
         }
 
         if(o == deleteButton)
