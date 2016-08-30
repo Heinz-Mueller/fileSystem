@@ -1,5 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,18 +39,19 @@ public class ClientGUI extends JFrame implements ActionListener
 
     private FSInterface fsserver;
 
-    private Image img;
-
     /**
      * Konstruktor
      */
-    public ClientGUI() throws IOException {
+    public ClientGUI() throws IOException
+    {
         JFrame frame = new JFrame("ClientGUI");
         frame.setContentPane(clientPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(800, 400);
+        frame.setSize(800, 390);
+        ImageIcon img = new ImageIcon("D:\\IntelliJ_java_projecte\\fileSystem\\htw.png");
+        frame.setIconImage(img.getImage());
         clientTextArea.append("Hallo \n\n");
         startClientButton.addActionListener(this);
         browseButton.addActionListener(this);
@@ -57,7 +61,6 @@ public class ClientGUI extends JFrame implements ActionListener
         deleteButton.addActionListener(this);
         renameButton.addActionListener(this);
         OSInfoButton.addActionListener(this);
-
 
         /**
          * Buttons deaktivieren, werden erst nach Verbindung aktiviert
@@ -70,23 +73,48 @@ public class ClientGUI extends JFrame implements ActionListener
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
 
-        ImageIcon img = new ImageIcon("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png");
-        frame.setIconImage(img.getImage());
-
-        //BufferedImage img2 = ImageIO.read(new File("C:\\Users\\Fuse\\Desktop\\fileSystem\\htw.png"));
-        //frame.setContentPane(img2);
-
     }
-
-    public void paintComponent(Graphics g) {
-        g.drawImage(img, 0, 0, null);
-    }
-
 
     void append(String text)
     {
         clientTextArea.append(text);
         clientTextArea.setCaretPosition(clientTextArea.getText().length() - 1);
+    }
+
+    /** Add nodes from under "dir" into curTop. Highly recursive. */
+    DefaultMutableTreeNode addNodes(DefaultMutableTreeNode curTop, File dir)
+    {
+        String curPath = dir.getPath();
+        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(curPath);
+        if (curTop != null)
+        { // should only be null at root
+            curTop.add(curDir);
+        }
+        Vector ol = new Vector();
+        String[] tmp = dir.list();
+        for (int i = 0; i < tmp.length; i++)
+            ol.addElement(tmp[i]);
+        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
+        File f;
+        Vector files = new Vector();
+        // Make two passes, one for Dirs and one for Files. This is #1.
+        for (int i = 0; i < ol.size(); i++)
+        {
+            String thisObject = (String) ol.elementAt(i);
+            String newPath;
+            if (curPath.equals("."))
+                newPath = thisObject;
+            else
+                newPath = curPath + File.separator + thisObject;
+            if ((f = new File(newPath)).isDirectory())
+                addNodes(curDir, f);
+            else
+                files.addElement(thisObject);
+        }
+        // Pass two: for files.
+        for (int fnum = 0; fnum < files.size(); fnum++)
+            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
+        return curDir;
     }
 
 
@@ -231,6 +259,30 @@ public class ClientGUI extends JFrame implements ActionListener
             {
                 System.out.println("Fehler: " + eBrowse.getMessage());
             }
+
+
+            // Make a tree list with all the nodes, and make it a JTree
+            JTree tree = new JTree(addNodes(null, new File(pfad) ));
+            //JTree tree = new JTree(addNodes(null, new File(".") ));
+
+            // Add a listener
+            tree.addTreeSelectionListener(new TreeSelectionListener()
+            {
+                public void valueChanged(TreeSelectionEvent e)
+                {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
+                            .getPath().getLastPathComponent();
+                    System.out.println("You selected " + node);
+                }
+            });
+
+            // Lastly, put the JTree into a JScrollPane.
+            JScrollPane scrollpane = new JScrollPane();
+            scrollpane.getViewport().add(tree);
+            add(BorderLayout.CENTER, scrollpane);
+
+            pack();
+            setVisible(true);
         }
 
         if(o == seachButton)
@@ -311,7 +363,9 @@ public class ClientGUI extends JFrame implements ActionListener
 
     public static void main(String[] args) throws IOException {
         //Propertys aus Datei laden
-        System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
+        System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+        //System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
         client = new ClientGUI();
     }
+
 }
