@@ -462,7 +462,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             scrollpane.getViewport().add(tree);
             add(BorderLayout.CENTER, scrollpane);
 
-
+/
             //Where instance variables are declared:
             */
             File root = new File("\\");
