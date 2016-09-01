@@ -1,3 +1,5 @@
+import sun.plugin2.os.windows.Windows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.List;
@@ -12,15 +14,14 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.JPanel;
 
 import javax.swing.JFrame;
 import javax.swing.event.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 
 
 import java.awt.BorderLayout;
@@ -107,22 +108,15 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     protected EventListenerList listeners;
 
     private static final Object LEAF = new Serializable() { };
-
     private Map map;
-
-
     private File root;
-
 
     public ClientGUI(File root)
     {
         this.root = root;
-
         if (!root.isDirectory())
             map.put(root, LEAF);
-
         this.listeners = new EventListenerList();
-
         this.map = new HashMap();
     }
 
@@ -131,19 +125,15 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     {
         return root;
     }
-
     public boolean isLeaf(Object node)
     {
         return map.get(node) == LEAF;
     }
-
     public int getChildCount(Object node)
     {
         java.util.List children = children(node);
-
         if (children == null)
             return 0;
-
         return children.size();
     }
 
@@ -151,7 +141,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     {
         return children(parent).get(index);
     }
-
     public int getIndexOfChild(Object parent, Object child)
     {
         return children(parent).indexOf(child);
@@ -160,9 +149,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     protected java.util.List children(Object node)
     {
         File f = (File)node;
-
         Object value = map.get(f);
-
         if (value == LEAF)
             return null;
 
@@ -171,11 +158,9 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         if (children == null)
         {
             File[] c = f.listFiles();
-
             if (c != null)
             {
                 children = new ArrayList(c.length);
-
                 for (int len = c.length, i = 0; i < len; i++)
                 {
                     children.add(c[i]);
@@ -185,7 +170,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             }
             else
                 children = new ArrayList(0);
-
             map.put(f, children);
         }
 
@@ -209,9 +193,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     public Object clone() {
         try {
             ClientGUI clone = (ClientGUI) super.clone();
-
             clone.listeners = new EventListenerList();
-
             clone.map = new HashMap(map);
 
             return clone;
@@ -220,11 +202,20 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         }
     }
 
-
     void append(String text)
     {
         clientTextArea.append(text);
         clientTextArea.setCaretPosition(clientTextArea.getText().length() - 1);
+    }
+
+    protected static ImageIcon createImageIcon(String path) {
+        java.net.URL imgURL = ClientGUI.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 
     /**
@@ -350,6 +341,14 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
         if(o == browseButton)
         {
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (Exception eeee) {
+                eeee.printStackTrace();
+            }
+
+
+
             /*
             String erg;
             //String erg2; //meins
@@ -420,10 +419,13 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 System.exit(2);
             }
 
+
             JTree tree = new JTree(new ClientGUI(root));
 
-            JFrame f = new JFrame(root.toString());
+            JFrame f = new JFrame(root.toString() + "                                                                                            " +
+                    "                 " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
+            /*
             f.addWindowListener(new WindowAdapter()
             {
                 public void windowClosing(WindowEvent e)
@@ -431,11 +433,29 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                     System.exit(0);
                 }
             });
+            */
+
+
+            // in JTree Bild
+            ImageIcon openIcon = createImageIcon("htwsoft.png");
+            ImageIcon leafIcon = createImageIcon("searchBild.png");
+            if (leafIcon != null) {
+                DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+                renderer.setLeafIcon(leafIcon);
+                renderer.setOpenIcon(openIcon);
+                tree.setCellRenderer(renderer);
+            } else {
+                System.err.println("Leaf icon missing; using default.");
+            }
+
 
             f.getContentPane().add(new JScrollPane(tree));
-
             f.pack();
             f.setVisible(true);
+            f.setSize(800, 600);
+            f.setLocation(1000,50);
+
+
         }
 
         if(o == searchButton)
