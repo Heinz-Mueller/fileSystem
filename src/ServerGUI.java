@@ -43,7 +43,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         starteServerButton.addActionListener(this);
 
         // FEHLER: man muss neuen Thread erstellen
-        changeBackground();
+        //changeBackground();
 
         /*
         JLabel background1 = new JLabel(new ImageIcon("D:\\IntelliJ IDEA Community Edition 2016.1.2\\fileSystemNeu\\src\\HTWSoft2.png"));
@@ -53,7 +53,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
 */
     }
 
-
+    /*
     public void changeBackground()
     {
         // Hintergrundsfarbe automatisch ändern (fließender Übergang)
@@ -79,6 +79,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
             }
         }
     }
+    */
 
     /**
      * Button gedrückt
