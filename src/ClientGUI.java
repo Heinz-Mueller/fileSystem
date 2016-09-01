@@ -354,40 +354,8 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
         if(o == browseButton)
         {
-
-//            Fuer Eingabe eines Pfades oder Treea-Asicht
-//            String erg;
-//            String [] dirListe;
-//            String [] fileListe;
-//
             JFrame eingabe = new JFrame();
             String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll untersucht werden?", "Browse", JOptionPane.PLAIN_MESSAGE);
-//            try
-//            {
-//                erg = this.fsserver.browseDirs(pfad);
-//                dirListe = erg.split("[;]");
-//
-//                erg = this.fsserver.browseFiles(pfad);
-//                fileListe = erg.split("[;]");
-//
-//                client.append("File-Liste:\n");
-//                client.append("---------------------------------------------------------------\n");
-//                for(int i=0; i<fileListe.length; i++)
-//                {
-//                    client.append( fileListe[i] + "\n");
-//                }
-//                client.append("\nDirectory-Liste:\n");
-//                client.append("---------------------------------------------------------------\n");
-//                for(int j=0; j<dirListe.length; j++)
-//                {
-//                    client.append(dirListe[j] + "\n");
-//                }
-//            }
-//            catch(IOException eBrowse)
-//            {
-//                System.out.println("Fehler: " + eBrowse.getMessage());
-//            }
-//
 
             //Fuer rekusrviven Ausruf
             // Make a tree list with all the nodes, and make it a JTree
