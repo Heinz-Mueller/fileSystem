@@ -60,7 +60,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     private FSInterface fsserver;
     private FSInterface fsserver2;
 
-
     String pfad = "";
     boolean ersteEingabe = true;
 
@@ -92,7 +91,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         renameButton.addActionListener(this);
         OSInfoButton.addActionListener(this);
 
-
         /**
          * Buttons deaktivieren, werden erst nach Verbindung aktiviert
          */
@@ -119,7 +117,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         this.listeners = new EventListenerList();
         this.map = new HashMap();
     }
-
 
     public Object getRoot()
     {
@@ -257,9 +254,9 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
             try {
                 //meine: -> FSInterface server = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
-                //this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:2222/FileSystemServer");
+                this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:1500/FileSystemServer");
                 //this.fsserver2 = (FSInterface) Naming.lookup("//10.9.40.229:2222/FileSystemServer");
-                this.fsserver = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
+                //this.fsserver = (FSInterface) Naming.lookup("//10.9.40.229:1500/FileSystemServer");
                 //this.fsserver = (FSInterface) Naming.lookup("//192.168.178.31:1500/FileSystemServer");
             }
             catch (Exception ex)
@@ -341,15 +338,12 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
         if(o == browseButton)
         {
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (Exception eeee) {
-                eeee.printStackTrace();
-            }
+//            try {
+//                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+//            } catch (Exception eeee) {
+//                eeee.printStackTrace();
+//            }
 
-
-
-            /*
             String erg;
             //String erg2; //meins
             String [] dirListe;
@@ -365,7 +359,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 erg = this.fsserver.browseDirs(pfad);
                 dirListe = erg.split("[;]");
 
-                erg = this.fsserver.browseFiles(pfad);
+                //erg = this.fsserver.browseFiles(pfad);
                 fileListe = erg.split("[;]");
 
                 //erg2 = this.fsserver2.browseDirs(pfad);
@@ -386,21 +380,22 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 {
                     client.append(dirListe[j] + "\n");
                 }
-                /*
-                client.append("\nMeine File-Liste:\n");
-                client.append("---------------------------------------------------------------\n");
-                for(int i=0; i<fileListe2.length; i++)
-                {
-                    client.append( fileListe2[i] + "\n");
-                }
-                client.append("\nDirectory-Liste:\n");
-                client.append("---------------------------------------------------------------\n");
-                for(int j=0; j<dirListe2.length; j++)
-                {
-                    client.append(dirListe2[j] + "\n");
-                }
-                */
-            /*
+
+
+//                client.append("\nMeine File-Liste:\n");
+//                client.append("---------------------------------------------------------------\n");
+//                for(int i=0; i<fileListe2.length; i++)
+//                {
+//                    client.append( fileListe2[i] + "\n");
+//                }
+//                client.append("\nDirectory-Liste:\n");
+//                client.append("---------------------------------------------------------------\n");
+//                for(int j=0; j<dirListe2.length; j++)
+//                {
+//                    client.append(dirListe2[j] + "\n");
+//                }
+
+
             }
 
             catch(IOException eBrowse)
@@ -409,53 +404,51 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             }
 
 
-            //Where instance variables are declared:
-            */
-            File root = new File("\\");
+//            //Where instance variables are declared:
+//
+//            File root = new File("\\");
+//
+//            if (!root.exists())
+//            {
+//                System.err.println(root+ ": No such file or directory");
+//                System.exit(2);
+//            }
+//
+//
+//            JTree tree = new JTree(new ClientGUI(root));
+//
+//            JFrame f = new JFrame(root.toString() + "                                                                                            " +
+//                    "                 " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+//
+//            /*
+//            f.addWindowListener(new WindowAdapter()
+//            {
+//                public void windowClosing(WindowEvent e)
+//                {
+//                    System.exit(0);
+//                }
+//            });
 
-            if (!root.exists())
-            {
-                System.err.println(root+ ": No such file or directory");
-                System.exit(2);
-            }
-
-
-            JTree tree = new JTree(new ClientGUI(root));
-
-            JFrame f = new JFrame(root.toString() + "                                                                                            " +
-                    "                 " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-
-            /*
-            f.addWindowListener(new WindowAdapter()
-            {
-                public void windowClosing(WindowEvent e)
-                {
-                    System.exit(0);
-                }
-            });
-            */
 
 
             // in JTree Bild
-            ImageIcon openIcon = createImageIcon("htwsoft.png");
-            ImageIcon leafIcon = createImageIcon("searchBild.png");
-            if (leafIcon != null) {
-                DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-                renderer.setLeafIcon(leafIcon);
-                renderer.setOpenIcon(openIcon);
-                tree.setCellRenderer(renderer);
-            } else {
-                System.err.println("Leaf icon missing; using default.");
-            }
-
-
-            f.getContentPane().add(new JScrollPane(tree));
-            f.pack();
-            f.setVisible(true);
-            f.setSize(800, 600);
-            f.setLocation(1000,50);
-
-
+//            ImageIcon openIcon = createImageIcon("open.png");
+//            ImageIcon leafIcon = createImageIcon("searchBild.png");
+//            if (leafIcon != null) {
+//                DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+//                renderer.setLeafIcon(leafIcon);
+//                renderer.setOpenIcon(openIcon);
+//                tree.setCellRenderer(renderer);
+//            } else {
+//                System.err.println("Leaf icon missing; using default.");
+//            }
+//
+//
+//            f.getContentPane().add(new JScrollPane(tree));
+//            f.pack();
+//            f.setVisible(true);
+//            f.setSize(800, 600);
+//            f.setLocation(1000,50);
         }
 
         if(o == searchButton)
