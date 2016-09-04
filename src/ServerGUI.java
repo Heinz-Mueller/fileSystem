@@ -355,7 +355,8 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
     public static void main(String args[])
     {
         //Propertys aus Datei laden
-        System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
+        System.setProperty("java.security.policy", "java.policy");
+        //System.setProperty("java.security.policy","C:\\Program Files (x86)\\Java\\jre1.8.0_101\\lib\\security\\java.policy");
         //System.setProperty("java.security.policy","C:\\Program Files\\Java\\jre1.8.0_91\\lib\\security\\java.policy");
     }
 }
