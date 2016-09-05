@@ -125,13 +125,13 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     private static final Object LEAF = new Serializable()
     {};
 
-    public ClientGUI(File root)
+    public ClientGUI(File root2)
     {
-        this.root = root;
-        if (!root.isDirectory())
-        {
-            map.put(root, LEAF);
-        }
+        this.root = root2.getParentFile();
+//        if (!root.isDirectory())
+//        {
+//            map.put(root, LEAF);
+//        }
         this.listeners = new EventListenerList();
         this.map = new HashMap();
     }
@@ -414,8 +414,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 System.out.println("Fehler: " + e11.getMessage());
             }
 
-            //JFrame eingabe = new JFrame();
-            //String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll untersucht werden?", "Browse", JOptionPane.PLAIN_MESSAGE);
 
             //Fuer rekusrviven Ausruf
             // Make a tree list with all the nodes, and make it a JTree
@@ -430,21 +428,21 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             //add(BorderLayout.CENTER, scrollpane);
 
             //NEU
-            File a = new File(dirListe[0]); //PopUp fuer Pfadeingabe
+            File a = new File(dirListe[1]); //PopUp fuer Pfadeingabe
             //File pfad = new File("\\");
             JTree baum = new JTree(new ClientGUI(a));
             JFrame f = new JFrame(pfad.toString() + "          " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
-
             /** Eigene Icons*/
             ImageIcon close = createImageIcon("close.png");
             ImageIcon open = createImageIcon("open.png");
+            ImageIcon leaf = createImageIcon("leaf2.png");
             if (close != null)
             {
                 DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
                 renderer.setClosedIcon(close);
                 renderer.setOpenIcon(open);
-                //renderer.setLeafIcon(leafIcon); //TODO
+                renderer.setLeafIcon(leaf);
                 baum.setCellRenderer(renderer);
             } else {
                 System.err.println("Leaf icon missing; using default.");
@@ -470,12 +468,12 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
 
-//            f.add(new JScrollPane(baum));
-//            f.pack();
-//            f.setVisible(true);
-//            f.setSize(800, 600);
-//            f.setResizable(false);
-//            f.setLocation(950, 10);
+            f.add(new JScrollPane(baum));
+            f.pack();
+            f.setVisible(true);
+            f.setSize(800, 600);
+            f.setResizable(false);
+            f.setLocation(950, 10);
         }
 
         if(o == seachButton)
