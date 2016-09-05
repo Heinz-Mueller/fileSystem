@@ -25,7 +25,9 @@
       </component>
       <component id="d35a7" class="javax.swing.JLabel" binding="port">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="303" height="16"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Port-Nr."/>
@@ -65,45 +67,33 @@
       <component id="6b7ff" class="javax.swing.JButton" binding="createDirButton" default-binding="true">
         <constraints>
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="30"/>
-            <preferred-size width="100" height="30"/>
+            <minimum-size width="30" height="30"/>
+            <preferred-size width="30" height="30"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Create Dir"/>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <icon value="folder.png"/>
+          <rolloverIcon value="folderHell.png"/>
+          <text value=""/>
+          <toolTipText value="Create Dir"/>
         </properties>
       </component>
       <component id="9a11f" class="javax.swing.JButton" binding="createFileButton" default-binding="true">
         <constraints>
           <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="30"/>
-            <preferred-size width="100" height="30"/>
+            <minimum-size width="30" height="30"/>
+            <preferred-size width="30" height="30"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Create File"/>
-        </properties>
-      </component>
-      <component id="3afe1" class="javax.swing.JButton" binding="deleteButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="30"/>
-            <preferred-size width="100" height="30"/>
-          </grid>
-        </constraints>
-        <properties>
-          <text value="Delete"/>
-        </properties>
-      </component>
-      <component id="89126" class="javax.swing.JButton" binding="renameButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="30"/>
-            <preferred-size width="100" height="30"/>
-          </grid>
-        </constraints>
-        <properties>
-          <text value="Rename"/>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <icon value="file.png"/>
+          <rolloverIcon value="fileHell.png"/>
+          <text value=""/>
+          <toolTipText value="Create File"/>
         </properties>
       </component>
       <component id="eaf03" class="javax.swing.JButton" binding="OSInfoButton" default-binding="true">
@@ -119,27 +109,35 @@
           <icon value="info.png"/>
           <inheritsPopupMenu value="true"/>
           <label value=""/>
-          <rolloverIcon value="infoDunkel.png"/>
+          <rolloverIcon value="infoHell.png"/>
           <text value=""/>
+          <toolTipText value="OS-Info"/>
         </properties>
       </component>
       <component id="99abd" class="javax.swing.JButton" binding="browseButton" default-binding="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="30"/>
-            <preferred-size width="100" height="30"/>
+            <minimum-size width="30" height="30"/>
+            <preferred-size width="30" height="30"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Browse"/>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <icon value="browse.png"/>
+          <rolloverIcon value="browseHell.png"/>
+          <text value=""/>
+          <toolTipText value="Browse"/>
         </properties>
       </component>
       <scrollpane id="70358">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="303" height="362"/>
+          </grid>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="line"/>
         <children>
           <component id="adfb3" class="javax.swing.JTree" binding="tree1" default-binding="true">
             <constraints/>
@@ -177,6 +175,39 @@
         </constraints>
         <properties/>
       </component>
+      <component id="89126" class="javax.swing.JButton" binding="renameButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="30" height="30"/>
+            <preferred-size width="30" height="30"/>
+          </grid>
+        </constraints>
+        <properties>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <icon value="rename.png"/>
+          <opaque value="false"/>
+          <rolloverIcon value="renameHell.png"/>
+          <text value=""/>
+          <toolTipText value="Rename"/>
+        </properties>
+      </component>
+      <component id="3afe1" class="javax.swing.JButton" binding="deleteButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="30" height="30"/>
+            <preferred-size width="30" height="30"/>
+          </grid>
+        </constraints>
+        <properties>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <icon value="garbage.png"/>
+          <rolloverIcon value="garbageHell.png"/>
+          <text value=""/>
+          <toolTipText value="Delete"/>
+        </properties>
+      </component>
       <component id="80911" class="javax.swing.JButton" binding="seachButton" default-binding="true">
         <constraints>
           <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
@@ -190,7 +221,9 @@
           <enabled value="true"/>
           <icon value="search.png"/>
           <opaque value="false"/>
+          <rolloverIcon value="searchHell.png"/>
           <text value=""/>
+          <toolTipText value="Search"/>
         </properties>
       </component>
     </children>
