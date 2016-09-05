@@ -17,4 +17,5 @@ public interface FSInterface extends java.rmi.Remote
 	public boolean delete(String file) throws RemoteException;
 	public boolean rename(String oldName, String newName) throws RemoteException;
 	public String getOSName()throws RemoteException;
+
 }

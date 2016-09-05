@@ -7,12 +7,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 
-
-
 public class FileSystemClient
 {
 	private FSInterface fsserver;
-	enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME };
+	enum MENUE { CLOSE, FALSE, BROWSE, SEARCH, CREATE_DIR, CREATE_FILE, DELETE, RENAME, OS_NAME }
 	/**
 	* Hauptmethode der Demo
 	* startet eine Menue
@@ -78,12 +76,24 @@ public class FileSystemClient
 	*/
 	public FileSystemClient(int portNr) throws RemoteException, NotBoundException
 	{
-		if (System.getSecurityManager() == null) 
+		String ip = "//192.168.0.105:2222/";
+		//String ip = "//10.9.41.43:2222/";
+		//String ip = "//10.9.40.229:1500/";
+		if (System.getSecurityManager() == null)
 		{
 			System.setSecurityManager(new SecurityManager());
 		}
 		Registry registry = LocateRegistry.getRegistry(portNr);
-		this.fsserver = (FSInterface) registry.lookup("FileSystemServer");		
+		//this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
+
+		try
+		{
+			this.fsserver = (FSInterface)Naming.lookup(ip + "FileSystemServer");
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.getMessage());
+		}
 	}
 	
 	/**
