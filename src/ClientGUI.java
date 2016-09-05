@@ -66,25 +66,15 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         frame.setContentPane(clientPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //JTree
+        /** JTree */
         DefaultTreeModel model = (DefaultTreeModel)tree1.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
-        //root.removeFromParent();
         root.removeAllChildren();
         //tree1.putClientProperty("JTree.lineStyle", "None");
         root.setUserObject("Browse");
         model.nodeChanged(root);
 
-//        DefaultMutableTreeNode hallo = new DefaultMutableTreeNode("Hallo");
-//        hallo.add(new DefaultMutableTreeNode("Amel"));
-//        root.add(hallo);
-//        DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("root2");
-//        DefaultMutableTreeNode bird = new DefaultMutableTreeNode("Birds");
-//        root2.add(bird);
-//        root.add(root2);
-
         model.reload(root);
-
 
         frame.pack();
         frame.setVisible(true);
@@ -93,7 +83,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         frame.setLocation(10, 10);
 
 
-        //Logo laden, muss im selben dir sein wie die java Files oder absoluten Pfad eingeben
+        /**Logo laden, muss im selben dir sein wie die java Files oder absoluten Pfad eingeben */
         ImageIcon img = new ImageIcon("htw.png");
         frame.setIconImage(img.getImage());
 
@@ -118,9 +108,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
         searchFeld.setEnabled(false);
-
     }
-
 
     private static final Object LEAF = new Serializable()
     {};
@@ -128,10 +116,10 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     public ClientGUI(File root2)
     {
         this.root = root2.getParentFile();
-//        if (!root.isDirectory())
-//        {
-//            map.put(root, LEAF);
-//        }
+        if (!root.isDirectory())
+        {
+            map.put(root, LEAF);
+        }
         this.listeners = new EventListenerList();
         this.map = new HashMap();
     }
