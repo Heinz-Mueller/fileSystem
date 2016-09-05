@@ -72,19 +72,19 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         //root.removeFromParent();
         root.removeAllChildren();
         //tree1.putClientProperty("JTree.lineStyle", "None");
-        root.setUserObject("My label");
+        root.setUserObject("Browse");
         model.nodeChanged(root);
 
-        DefaultMutableTreeNode hallo = new DefaultMutableTreeNode("Hallo");
-        hallo.add(new DefaultMutableTreeNode("Amel"));
-        root.add(hallo);
+//        DefaultMutableTreeNode hallo = new DefaultMutableTreeNode("Hallo");
+//        hallo.add(new DefaultMutableTreeNode("Amel"));
+//        root.add(hallo);
+//        DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("root2");
+//        DefaultMutableTreeNode bird = new DefaultMutableTreeNode("Birds");
+//        root2.add(bird);
+//        root.add(root2);
+
         model.reload(root);
 
-        DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("root2");
-        DefaultMutableTreeNode bird = new DefaultMutableTreeNode("Birds");
-        root2.add(bird);
-        root.add(root2);
-        model.reload(root);
 
         frame.pack();
         frame.setVisible(true);

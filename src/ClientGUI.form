@@ -54,14 +54,21 @@
       </scrollpane>
       <component id="881c4" class="javax.swing.JButton" binding="startClientButton" default-binding="true">
         <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="22"/>
-            <preferred-size width="100" height="22"/>
-            <maximum-size width="100" height="22"/>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="100" height="30"/>
+            <preferred-size width="100" height="30"/>
+            <maximum-size width="100" height="30"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Start Client"/>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <horizontalTextPosition value="2"/>
+          <icon value="start.png"/>
+          <iconTextGap value="1"/>
+          <rolloverIcon value="startHell.png"/>
+          <text value="Start"/>
+          <toolTipText value="Start Client"/>
         </properties>
       </component>
       <component id="6b7ff" class="javax.swing.JButton" binding="createDirButton" default-binding="true">
