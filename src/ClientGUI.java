@@ -430,10 +430,9 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             //add(BorderLayout.CENTER, scrollpane);
 
             //NEU
-            File a = new File(dirListe[2]); //PopUp fuer Pfadeingabe
+            File a = new File(dirListe[0]); //PopUp fuer Pfadeingabe
             //File pfad = new File("\\");
             JTree baum = new JTree(new ClientGUI(a));
-
             JFrame f = new JFrame(pfad.toString() + "          " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
 
@@ -457,16 +456,18 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             root.removeAllChildren();
             root.setUserObject(pfad);
 
-            for (int i = 1; i < dirListe.length; i++)
+            for (int i = 0; i < dirListe.length; i++)
             {
-                root.add(new DefaultMutableTreeNode(dirListe[i]));
+                DefaultMutableTreeNode folder = new DefaultMutableTreeNode(dirListe[i]);
+                DefaultMutableTreeNode folder2 = new DefaultMutableTreeNode(" ");
+                folder.add(folder2);
+                root.add(folder);
             }
-            for (int i = 1; i < fileListe.length; i++)
+            for (int i = 0; i < fileListe.length; i++)
             {
                 root.add(new DefaultMutableTreeNode(fileListe[i]));
             }
-
-            root.add(new DefaultMutableTreeNode(erg));
+            root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
 
 //            f.add(new JScrollPane(baum));
