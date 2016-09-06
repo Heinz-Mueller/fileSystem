@@ -203,7 +203,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     }
     /** Alles fuer den Tree_ENDE*/
 
-    /** Returns an ImageIcon, or null if the path was invalid. */
+    /** Returns an ImageIcon, or null if the path was invalid. Fuer Icons im JTreee */
     protected static ImageIcon createImageIcon(String path)
     {
         java.net.URL imgURL = ClientGUI.class.getResource(path);
@@ -291,6 +291,20 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 Registry registry = LocateRegistry.getRegistry(serverPort);
                 this.fsserver = (FSInterface) registry.lookup("FileSystemServer");
                 client.append("Verbunden...\n");
+
+                // Start-Button deaktivieren nach Start
+                startClientButton.setEnabled(false);
+                // Portfeld deaktivieren nach Start
+                portTextFeld.setEditable(false);
+                //Buttons aktivieren
+                browseButton.setEnabled(true);
+                seachButton.setEnabled(true);
+                createDirButton.setEnabled(true);
+                createFileButton.setEnabled(true);
+                deleteButton.setEnabled(true);
+                renameButton.setEnabled(true);
+                OSInfoButton.setEnabled(true);
+                searchFeld.setEnabled(true);
             }
             catch(Exception e2)
             {
@@ -298,30 +312,15 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 client.append( "Fehler: " + e2.toString() );
             }
 
-            /** Verbindung mit mehreren Rechner Stuff */
+//            /** Verbindung mit mehreren Rechner Stuff */
 //            try
 //            {
-//                this.fsserver = (FSInterface) Naming.lookup("//192.168.0.104:5555/FileSystemServer");
+//                this.fsserver = (FSInterface) Naming.lookup("//10.9.41.43:5656/FileSystemServer");
 //            }
 //            catch (Exception ex)
 //            {
 //                System.out.println( "Fehler: " + ex.toString() );
 //            }
-
-
-            // Start-Button deaktivieren nach Start
-            startClientButton.setEnabled(false);
-            // Portfeld deaktivieren nach Start
-            portTextFeld.setEditable(false);
-            //Buttons aktivieren
-            browseButton.setEnabled(true);
-            seachButton.setEnabled(true);
-            createDirButton.setEnabled(true);
-            createFileButton.setEnabled(true);
-            deleteButton.setEnabled(true);
-            renameButton.setEnabled(true);
-            OSInfoButton.setEnabled(true);
-            searchFeld.setEnabled(true);
         }
 
         if(o == OSInfoButton)

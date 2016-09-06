@@ -34,7 +34,8 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         serverTextArea.append("Hallo \n\n");
         starteServerButton.addActionListener(this);
 
-        ImageIcon img = new ImageIcon("D:\\IntelliJ_java_projecte\\fileSystem\\htw.png");
+        //Logo laden, muss im selben dir sein wie die java Files oder absoluten Pfad eingeben
+        ImageIcon img = new ImageIcon("htw.png");
         frame.setIconImage(img.getImage());
     }
 
@@ -77,6 +78,15 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
             {
                 System.out.println( "Fehler: " + e2.toString() );
             }
+
+//            /** Verbindung mit mehreren Rechner Stuff */
+//            try {
+//                //Naming.rebind("//:2222/FileSystemServer", fsserver);
+//                Naming.rebind("//:4545/FileSystemServer", fsserver);
+//            }
+//            catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//            }
 
             // Button deaktivieren nach Start
             starteServerButton.setEnabled(false);
