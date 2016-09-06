@@ -133,6 +133,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         System.out.println("Return: \"" + ergListe + "\"");
         serverTextArea.append("Return: \"" + ergListe + "\"");
         return ergListe;
+        //return dir;
     }
 
     /**

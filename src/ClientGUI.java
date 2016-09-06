@@ -66,34 +66,24 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         frame.setContentPane(clientPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //JTree
+        /** JTree */
         DefaultTreeModel model = (DefaultTreeModel)tree1.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
-        //root.removeFromParent();
         root.removeAllChildren();
         //tree1.putClientProperty("JTree.lineStyle", "None");
-        root.setUserObject("My label");
+        root.setUserObject("Browse");
         model.nodeChanged(root);
 
-        DefaultMutableTreeNode hallo = new DefaultMutableTreeNode("Hallo");
-        hallo.add(new DefaultMutableTreeNode("Amel"));
-        root.add(hallo);
-        model.reload(root);
-
-        DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("root2");
-        DefaultMutableTreeNode bird = new DefaultMutableTreeNode("Birds");
-        root2.add(bird);
-        root.add(root2);
         model.reload(root);
 
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(900, 400);
+        frame.setSize(1000, 400);
         frame.setResizable(false);
         frame.setLocation(10, 10);
 
 
-        //Logo laden, muss im selben dir sein wie die java Files oder absoluten Pfad eingeben
+        /**Logo laden, muss im selben dir sein wie die java Files oder absoluten Pfad eingeben */
         ImageIcon img = new ImageIcon("htw.png");
         frame.setIconImage(img.getImage());
 
@@ -118,16 +108,14 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         renameButton.setEnabled(false);
         OSInfoButton.setEnabled(false);
         searchFeld.setEnabled(false);
-
     }
-
 
     private static final Object LEAF = new Serializable()
     {};
 
-    public ClientGUI(File root)
+    public ClientGUI(File root2)
     {
-        this.root = root;
+        this.root = root2.getParentFile();
         if (!root.isDirectory())
         {
             map.put(root, LEAF);
@@ -414,8 +402,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 System.out.println("Fehler: " + e11.getMessage());
             }
 
-            //JFrame eingabe = new JFrame();
-            //String pfad = JOptionPane.showInputDialog(eingabe, "Welcher Ordner soll untersucht werden?", "Browse", JOptionPane.PLAIN_MESSAGE);
 
             //Fuer rekusrviven Ausruf
             // Make a tree list with all the nodes, and make it a JTree
@@ -430,22 +416,21 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             //add(BorderLayout.CENTER, scrollpane);
 
             //NEU
-            File a = new File(dirListe[2]); //PopUp fuer Pfadeingabe
+            File a = new File(dirListe[1]); //PopUp fuer Pfadeingabe
             //File pfad = new File("\\");
             JTree baum = new JTree(new ClientGUI(a));
-
             JFrame f = new JFrame(pfad.toString() + "          " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-
 
             /** Eigene Icons*/
             ImageIcon close = createImageIcon("close.png");
             ImageIcon open = createImageIcon("open.png");
+            ImageIcon leaf = createImageIcon("leaf2.png");
             if (close != null)
             {
                 DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
                 renderer.setClosedIcon(close);
                 renderer.setOpenIcon(open);
-                //renderer.setLeafIcon(leafIcon); //TODO
+                renderer.setLeafIcon(leaf);
                 baum.setCellRenderer(renderer);
             } else {
                 System.err.println("Leaf icon missing; using default.");
@@ -457,24 +442,26 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             root.removeAllChildren();
             root.setUserObject(pfad);
 
-            for (int i = 1; i < dirListe.length; i++)
+            for (int i = 0; i < dirListe.length; i++)
             {
-                root.add(new DefaultMutableTreeNode(dirListe[i]));
+                DefaultMutableTreeNode folder = new DefaultMutableTreeNode(dirListe[i]);
+                DefaultMutableTreeNode folder2 = new DefaultMutableTreeNode(" ");
+                folder.add(folder2);
+                root.add(folder);
             }
-            for (int i = 1; i < fileListe.length; i++)
+            for (int i = 0; i < fileListe.length; i++)
             {
                 root.add(new DefaultMutableTreeNode(fileListe[i]));
             }
-
-            root.add(new DefaultMutableTreeNode(erg));
+            root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
 
-//            f.add(new JScrollPane(baum));
-//            f.pack();
-//            f.setVisible(true);
-//            f.setSize(800, 600);
-//            f.setResizable(false);
-//            f.setLocation(950, 10);
+            f.add(new JScrollPane(baum));
+            f.pack();
+            f.setVisible(true);
+            f.setSize(800, 600);
+            f.setResizable(false);
+            f.setLocation(950, 10);
         }
 
         if(o == seachButton)
