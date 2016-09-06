@@ -388,10 +388,19 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             String [] dirListe = new String[0];
             String [] fileListe = new String[0];
 
+            String test;
+            String test2;
+            String [] testListe =  new String[0];
             try
             {
                 erg = this.fsserver.browseDirs(pfad);
                 dirListe = erg.split("[;]");
+
+                //test = this.fsserver.browseDirs(dirListe[0]);
+                //testListe = test.split("[;]");
+                //System.out.println(test);
+                test2 = this.fsserver.browseDirs(dirListe[1]);
+                System.out.println(test2);
 
                 erg = this.fsserver.browseFiles(pfad);
                 fileListe = erg.split("[;]");
@@ -446,21 +455,34 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
                 DefaultMutableTreeNode folder = new DefaultMutableTreeNode(dirListe[i]);
                 DefaultMutableTreeNode folder2 = new DefaultMutableTreeNode(" ");
                 folder.add(folder2);
-                root.add(folder);
+               //root.add(folder);
+
+                try
+                {
+                    test = this.fsserver.browseDirs(dirListe[0]);
+                    testListe = test.split("[;]");
+                    DefaultMutableTreeNode testB = new DefaultMutableTreeNode(testListe[i]);
+                    folder.add(testB);
+                    root.add(folder);
+                } catch (RemoteException e1)
+                {
+                    e1.printStackTrace();
+                }
+
             }
             for (int i = 0; i < fileListe.length; i++)
             {
                 root.add(new DefaultMutableTreeNode(fileListe[i]));
             }
-            root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
+            //root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
 
-            f.add(new JScrollPane(baum));
-            f.pack();
-            f.setVisible(true);
-            f.setSize(800, 600);
-            f.setResizable(false);
-            f.setLocation(950, 10);
+//            f.add(new JScrollPane(baum));
+//            f.pack();
+//            f.setVisible(true);
+//            f.setSize(800, 600);
+//            //f.setResizable(false);
+//            f.setLocation(950, 10);
         }
 
         if(o == seachButton)
