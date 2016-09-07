@@ -78,7 +78,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(1000, 400);
+        frame.setSize(1000, 800);
         frame.setResizable(false);
         frame.setLocation(10, 10);
 
@@ -388,19 +388,10 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             String [] dirListe = new String[0];
             String [] fileListe = new String[0];
 
-            String test;
-            String test2;
-            String [] testListe =  new String[0];
             try
             {
                 erg = this.fsserver.browseDirs(pfad);
                 dirListe = erg.split("[;]");
-
-                //test = this.fsserver.browseDirs(dirListe[0]);
-                //testListe = test.split("[;]");
-                //System.out.println(test);
-                test2 = this.fsserver.browseDirs(dirListe[1]);
-                System.out.println(test2);
 
                 erg = this.fsserver.browseFiles(pfad);
                 fileListe = erg.split("[;]");
@@ -411,38 +402,44 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
             }
 
 
+            /**
             //Fuer rekusrviven Ausruf
             // Make a tree list with all the nodes, and make it a JTree
-//            JTree tree = new JTree(addNodes(null, new File(".") ));
-            // Lastly, put the JTree into a JScrollPane.
-//            JScrollPane scrollpane = new JScrollPane();
-//            scrollpane.getViewport().add(tree);
-//            add(BorderLayout.CENTER, scrollpane);
-            // Lastly, put the JTree into a JScrollPane.
-            //JScrollPane scrollpane = new JScrollPane();
-            //scrollpane.getViewport().add(tree);
-            //add(BorderLayout.CENTER, scrollpane);
+            DefaultMutableTreeNode fold = new DefaultMutableTreeNode(pfad);
+            JTree tree = new JTree(addNodes(null, new File(pfad)));
+            // Lastly, put the JTree into a JScrollPane
+            JScrollPane scrollpane = new JScrollPane();
+            scrollpane.getViewport().add(tree);
+            add(BorderLayout.CENTER, scrollpane);
+            */
 
             //NEU
-            File a = new File(dirListe[1]); //PopUp fuer Pfadeingabe
+//            File a = new File(dirListe[1]); //PopUp fuer Pfadeingabe
             //File pfad = new File("\\");
-            JTree baum = new JTree(new ClientGUI(a));
-            JFrame f = new JFrame(pfad.toString() + "          " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+//            JTree baum = new JTree(new ClientGUI(a));
+//            JFrame f = new JFrame(pfad.toString() + "          " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
-            /** Eigene Icons*/
-            ImageIcon close = createImageIcon("close.png");
-            ImageIcon open = createImageIcon("open.png");
-            ImageIcon leaf = createImageIcon("leaf2.png");
-            if (close != null)
-            {
-                DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-                renderer.setClosedIcon(close);
-                renderer.setOpenIcon(open);
-                renderer.setLeafIcon(leaf);
-                baum.setCellRenderer(renderer);
-            } else {
-                System.err.println("Leaf icon missing; using default.");
-            }/**Icons Stuff Ende*/
+//            f.add(new JScrollPane(tree));
+//            f.pack();
+//            f.setVisible(true);
+//            f.setSize(800, 600);
+//            f.setResizable(false);
+//            f.setLocation(950, 10);
+
+//            /** Eigene Icons*/
+//            ImageIcon close = createImageIcon("close.png");
+//            ImageIcon open = createImageIcon("open.png");
+//            ImageIcon leaf = createImageIcon("leaf2.png");
+//            if (close != null)
+//            {
+//                DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+//                renderer.setClosedIcon(close);
+//                renderer.setOpenIcon(open);
+//                renderer.setLeafIcon(leaf);
+//                baum.setCellRenderer(renderer);
+//            } else {
+//                System.err.println("Leaf icon missing; using default.");
+//            }/**Icons Stuff Ende*/
 
 
             DefaultTreeModel model = (DefaultTreeModel)tree1.getModel();
@@ -452,37 +449,53 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
             for (int i = 0; i < dirListe.length; i++)
             {
-                DefaultMutableTreeNode folder = new DefaultMutableTreeNode(dirListe[i]);
-                DefaultMutableTreeNode folder2 = new DefaultMutableTreeNode(" ");
-                folder.add(folder2);
-               //root.add(folder);
-
+                String erg2 = null;
+                String erg3 = null;
                 try
                 {
-                    test = this.fsserver.browseDirs(dirListe[0]);
-                    testListe = test.split("[;]");
-                    DefaultMutableTreeNode testB = new DefaultMutableTreeNode(testListe[i]);
-                    folder.add(testB);
-                    root.add(folder);
-                } catch (RemoteException e1)
-                {
+                    erg2 = this.fsserver.browseDirs(dirListe[i]);
+                    erg3 = this.fsserver.browseFiles(dirListe[i]);
+                } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                String [] dirListe2 = erg2.split("[;]");
+                String [] fileListe2 = erg3.split("[;]");
 
+                DefaultMutableTreeNode folder = new DefaultMutableTreeNode(dirListe[i]);
+                for (int j = 0; j < dirListe2.length; j++)
+                {
+                    folder.add(new DefaultMutableTreeNode(dirListe2[j]));
+                    /**Dauert viel zu lang, ohne Listener ist es kacke */
+//                    String test2 = null;
+//                    try {
+//                        test2 = this.fsserver.browseDirs(testListe[j]);
+//                    } catch (RemoteException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    String [] testListe2 = test2.split("[;]");
+//
+//                    DefaultMutableTreeNode folderU = new DefaultMutableTreeNode(testListe[j]);
+//                    for(int k = 0; k < testListe2.length; k++)
+//                    {
+//                        folderU.add(new DefaultMutableTreeNode(testListe2[k]));
+//                    }
+//                    folder.add(folderU);
+                     /***/
+                }
+                //DefaultMutableTreeNode file = new DefaultMutableTreeNode(fileListe2[i]);
+                for (int n = 0; n < fileListe2.length; n++)
+                {
+                    folder.add(new DefaultMutableTreeNode(fileListe2[n]));
+                }
+                root.add(folder);
             }
+
             for (int i = 0; i < fileListe.length; i++)
             {
                 root.add(new DefaultMutableTreeNode(fileListe[i]));
             }
             //root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
-
-//            f.add(new JScrollPane(baum));
-//            f.pack();
-//            f.setVisible(true);
-//            f.setSize(800, 600);
-//            //f.setResizable(false);
-//            f.setLocation(950, 10);
         }
 
         if(o == seachButton)
