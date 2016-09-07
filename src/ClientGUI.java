@@ -66,7 +66,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         frame.pack();
         frame.setVisible(true);
         frame.setSize(1000, 800);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setLocation(10, 10);
 
 
