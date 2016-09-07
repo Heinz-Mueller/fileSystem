@@ -45,6 +45,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     private JTree tree1;
     private JTextField searchFeld;
     private JLabel searchLabel;
+    private JScrollPane baumScroll;
 
     private FSInterface fsserver;
 
@@ -57,12 +58,12 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     String searchPfad = "";
     boolean ersteEingabe = true;
 
+    JFrame frame = new JFrame("ClientGUI");
     /**
      * Konstruktor
      */
     public ClientGUI() throws IOException
     {
-        JFrame frame = new JFrame("ClientGUI");
         frame.setContentPane(clientPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,7 +71,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         DefaultTreeModel model = (DefaultTreeModel)tree1.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
         root.removeAllChildren();
-        //tree1.putClientProperty("JTree.lineStyle", "None");
         root.setUserObject("Browse");
         model.nodeChanged(root);
 
@@ -110,6 +110,7 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         searchFeld.setEnabled(false);
     }
 
+    /** Alles fuer den Tree_ANFANG*/
     private static final Object LEAF = new Serializable()
     {};
 
@@ -124,7 +125,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
         this.map = new HashMap();
     }
 
-    /** Alles fuer den Tree_ANFANG*/
     public Object getRoot()
     {
         return root;
@@ -203,17 +203,17 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
     }
     /** Alles fuer den Tree_ENDE*/
 
-    /** Returns an ImageIcon, or null if the path was invalid. Fuer Icons im JTreee */
-    protected static ImageIcon createImageIcon(String path)
-    {
-        java.net.URL imgURL = ClientGUI.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
+//    /** Returns an ImageIcon, or null if the path was invalid. Fuer Icons im JTreee */
+//    protected static ImageIcon createImageIcon(String path)
+//    {
+//        java.net.URL imgURL = ClientGUI.class.getResource(path);
+//        if (imgURL != null) {
+//            return new ImageIcon(imgURL);
+//        } else {
+//            System.err.println("Couldn't find file: " + path);
+//            return null;
+//        }
+//    }
 
 
     void append(String text)
@@ -258,7 +258,6 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 //            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
 //        return curDir;
 //    }
-
 
     /**
      * Button gedrückt
@@ -403,15 +402,15 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 
 
             /**
-            //Fuer rekusrviven Ausruf
-            // Make a tree list with all the nodes, and make it a JTree
-            DefaultMutableTreeNode fold = new DefaultMutableTreeNode(pfad);
-            JTree tree = new JTree(addNodes(null, new File(pfad)));
-            // Lastly, put the JTree into a JScrollPane
-            JScrollPane scrollpane = new JScrollPane();
-            scrollpane.getViewport().add(tree);
-            add(BorderLayout.CENTER, scrollpane);
-            */
+             //Fuer rekusrviven Ausruf
+             // Make a tree list with all the nodes, and make it a JTree
+             DefaultMutableTreeNode fold = new DefaultMutableTreeNode(pfad);
+             JTree tree = new JTree(addNodes(null, new File(pfad)));
+             // Lastly, put the JTree into a JScrollPane
+             JScrollPane scrollpane = new JScrollPane();
+             scrollpane.getViewport().add(tree);
+             add(BorderLayout.CENTER, scrollpane);
+             */
 
             //NEU
 //            File a = new File(dirListe[1]); //PopUp fuer Pfadeingabe
@@ -441,11 +440,10 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 //                System.err.println("Leaf icon missing; using default.");
 //            }/**Icons Stuff Ende*/
 
-
             DefaultTreeModel model = (DefaultTreeModel)tree1.getModel();
             DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
             root.removeAllChildren();
-            root.setUserObject(pfad);
+            root.setUserObject(pfad + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
             for (int i = 0; i < dirListe.length; i++)
             {
@@ -480,19 +478,25 @@ public class ClientGUI extends JFrame implements ActionListener, TreeModel, Seri
 //                        folderU.add(new DefaultMutableTreeNode(testListe2[k]));
 //                    }
 //                    folder.add(folderU);
-                     /***/
+                    /***/
                 }
                 //DefaultMutableTreeNode file = new DefaultMutableTreeNode(fileListe2[i]);
                 for (int n = 0; n < fileListe2.length; n++)
                 {
-                    folder.add(new DefaultMutableTreeNode(fileListe2[n]));
+                    if(!fileListe2[n].equals(""))
+                    {
+                        folder.add(new DefaultMutableTreeNode(fileListe2[n]));
+                    }
                 }
                 root.add(folder);
             }
 
             for (int i = 0; i < fileListe.length; i++)
             {
-                root.add(new DefaultMutableTreeNode(fileListe[i]));
+                if(!fileListe[i].equals(""))
+                {
+                    root.add(new DefaultMutableTreeNode(fileListe[i]));
+                }
             }
             //root.add(new DefaultMutableTreeNode(erg)); //Nur fuer Test
             model.reload(root);
