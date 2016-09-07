@@ -18,6 +18,8 @@ public class FileSystem
 	private String osname; //Name des Betriebsystems
 	private Path [] dirListe; //Liste der gefundenen Ordner bei Browse
 	private Path [] fileListe; //Liste der gefundenen Dateien bei Browse
+	//meins
+	private String pfad;
 	
 	/**
 	* Konstruktor der FileSystem Klasse
@@ -28,6 +30,8 @@ public class FileSystem
 		this.osname = System.getProperty("os.name");
 		this.dirListe = null;
 		this.fileListe = null;
+		//meins
+		this.pfad = null;
 
 	}
 	
@@ -39,6 +43,9 @@ public class FileSystem
 	*/
 	public void browse(String dir) throws IOException
 	{
+		//meins
+		this.pfad = dir;
+
 		DirWatcher dw = new DirWatcher(); //Eigene Klasse DirWatcher zum durchlaufen des Ordners
 		Path path = Paths.get(dir); //Ordner der durchsucht werden soll
 		//Iintialisieren des Durchlaufs
@@ -49,12 +56,14 @@ public class FileSystem
 		if(dw.getAnzDirs() > 0)
 		{
 			this.dirListe = dw.getDirListe();
+			//this.dirListe = new Path[0];
+			//this.dirListe[0] = path;
 		}
 		else
 		{
 			//Keine Unterordner gefunden. Indem Fall wird der übergebene
 			//Pfad zurückgeliefert
-			this.dirListe = new Path[1]; 
+			this.dirListe = new Path[1];
 			this.dirListe[0] = path;
 		}
 		//prüfen ob Dateien gefunden wurden

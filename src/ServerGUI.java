@@ -79,6 +79,15 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
                 System.out.println( "Fehler: " + e2.toString() );
             }
 
+//            /** Verbindung mit mehreren Rechner Stuff */
+//            try {
+//                //Naming.rebind("//:2222/FileSystemServer", fsserver);
+//                Naming.rebind("//:4545/FileSystemServer", fsserver);
+//            }
+//            catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//            }
+
             // Button deaktivieren nach Start
             starteServerButton.setEnabled(false);
             // Portfeld deaktivieren nach Start
@@ -134,6 +143,7 @@ public class ServerGUI extends JFrame implements FSInterface, ActionListener
         System.out.println("Return: \"" + ergListe + "\"");
         serverTextArea.append("Return: \"" + ergListe + "\"");
         return ergListe;
+        //return dir;
     }
 
     /**
